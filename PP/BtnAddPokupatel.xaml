@@ -1,0 +1,50 @@
+﻿<Window x:Class="PP.BtnAddPokupatel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PP"
+        mc:Ignorable="d"
+        Title="Покупатели" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+            <RowDefinition Height="70"/>
+
+        </Grid.RowDefinitions>
+
+        <StackPanel x:Name="StackLetters" Orientation="Horizontal">
+            <TextBlock FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="10" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal"  Grid.Row="5">
+            <TextBlock>Фамилия</TextBlock>
+            <TextBox x:Name="TxtEmail" TextChanged="TxtEmail_TextChanged"></TextBox>
+            <TextBlock>Телефон</TextBlock>
+            <TextBox x:Name="TxtPhone" TextChanged="TxtPhone_TextChanged"></TextBox>
+        </StackPanel>
+        
+
+        <DataGrid Grid.Row="2" x:Name="DataGrid2" ColumnWidth="*" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Grid.ColumnSpan="2">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding Фамилия}"/>
+                <DataGridTextColumn Header="Имя" Binding="{Binding Имя}"/>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding Отчество}"/>
+                <DataGridTextColumn Header="Телефон" Binding="{Binding Телефон}"/>
+                <DataGridTemplateColumn Header="Редактировать">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name="BtnEditPokup" Click="BtnEditPokup_Click">Изменить</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="4">
+            <Button x:Name="BtnAddPokup" Content="Добавить" Click="BtnAddPokup_Click"/>
+            <Button x:Name="BtnDeletePokup" Content="Удалить" Click="BtnDeletePokup_Click"/>
+            <Button x:Name="BtnExit" Content="Назад" Click="BtnExit_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

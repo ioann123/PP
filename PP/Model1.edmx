@@ -1,0 +1,347 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище PPModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Квартиры">
+          <Key>
+            <PropertyRef Name="Код_квартиры" />
+          </Key>
+          <Property Name="Код_квартиры" Type="int" Nullable="false" />
+          <Property Name="Улица" Type="int" />
+          <Property Name="Номер_дома" Type="nvarchar" MaxLength="50" />
+          <Property Name="Номер_квартиры" Type="nvarchar" MaxLength="50" />
+          <Property Name="Площадь_квартиры" Type="nvarchar" MaxLength="50" />
+          <Property Name="Количество_комнат" Type="nvarchar" MaxLength="50" />
+          <Property Name="Цена_квартиры" Type="money" />
+        </EntityType>
+        <EntityType Name="Покупатели">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Фамилия" Type="nvarchar" MaxLength="50" />
+          <Property Name="Имя" Type="nvarchar" MaxLength="50" />
+          <Property Name="Отчество" Type="nvarchar" MaxLength="50" />
+          <Property Name="Телефон" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Риэлторы">
+          <Key>
+            <PropertyRef Name="Код_Риэлтора" />
+          </Key>
+          <Property Name="Код_Риэлтора" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Фамилия" Type="nvarchar" MaxLength="50" />
+          <Property Name="Имя" Type="nvarchar" MaxLength="50" />
+          <Property Name="Отчество" Type="nvarchar" MaxLength="50" />
+          <Property Name="Телефон" Type="nvarchar" MaxLength="50" />
+          <Property Name="Процент_вознаграждения" Type="int" />
+        </EntityType>
+        <EntityType Name="Сделки">
+          <Key>
+            <PropertyRef Name="Код_сделки" />
+          </Key>
+          <Property Name="Код_сделки" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Код_квартиры" Type="int" />
+          <Property Name="Риэлтор" Type="int" />
+          <Property Name="Покупатель" Type="int" />
+          <Property Name="Цена_сделки" Type="money" />
+        </EntityType>
+        <EntityType Name="Улицы">
+          <Key>
+            <PropertyRef Name="Код_улицы" />
+          </Key>
+          <Property Name="Код_улицы" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название_улицы" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Квартиры_Улицы">
+          <End Role="Улицы" Type="Self.Улицы" Multiplicity="0..1" />
+          <End Role="Квартиры" Type="Self.Квартиры" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Улицы">
+              <PropertyRef Name="Код_улицы" />
+            </Principal>
+            <Dependent Role="Квартиры">
+              <PropertyRef Name="Улица" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сделки_Квартиры">
+          <End Role="Квартиры" Type="Self.Квартиры" Multiplicity="0..1" />
+          <End Role="Сделки" Type="Self.Сделки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Квартиры">
+              <PropertyRef Name="Код_квартиры" />
+            </Principal>
+            <Dependent Role="Сделки">
+              <PropertyRef Name="Код_квартиры" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сделки_Покупатели1">
+          <End Role="Покупатели" Type="Self.Покупатели" Multiplicity="0..1" />
+          <End Role="Сделки" Type="Self.Сделки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Покупатели">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Сделки">
+              <PropertyRef Name="Покупатель" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сделки_Риэлторы1">
+          <End Role="Риэлторы" Type="Self.Риэлторы" Multiplicity="0..1" />
+          <End Role="Сделки" Type="Self.Сделки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Риэлторы">
+              <PropertyRef Name="Код_Риэлтора" />
+            </Principal>
+            <Dependent Role="Сделки">
+              <PropertyRef Name="Риэлтор" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище PPModelContainer">
+          <EntitySet Name="Квартиры" EntityType="Self.Квартиры" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Покупатели" EntityType="Self.Покупатели" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Риэлторы" EntityType="Self.Риэлторы" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Сделки" EntityType="Self.Сделки" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Улицы" EntityType="Self.Улицы" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Квартиры_Улицы" Association="Self.FK_Квартиры_Улицы">
+            <End Role="Улицы" EntitySet="Улицы" />
+            <End Role="Квартиры" EntitySet="Квартиры" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сделки_Квартиры" Association="Self.FK_Сделки_Квартиры">
+            <End Role="Квартиры" EntitySet="Квартиры" />
+            <End Role="Сделки" EntitySet="Сделки" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сделки_Покупатели1" Association="Self.FK_Сделки_Покупатели1">
+            <End Role="Покупатели" EntitySet="Покупатели" />
+            <End Role="Сделки" EntitySet="Сделки" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сделки_Риэлторы1" Association="Self.FK_Сделки_Риэлторы1">
+            <End Role="Риэлторы" EntitySet="Риэлторы" />
+            <End Role="Сделки" EntitySet="Сделки" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Квартиры">
+          <Key>
+            <PropertyRef Name="Код_квартиры" />
+          </Key>
+          <Property Name="Код_квартиры" Type="Int32" Nullable="false" />
+          <Property Name="Улица" Type="Int32" />
+          <Property Name="Номер_дома" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Номер_квартиры" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Площадь_квартиры" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Количество_комнат" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Цена_квартиры" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Улицы" Relationship="Self.FK_Квартиры_Улицы" FromRole="Квартиры" ToRole="Улицы" />
+          <NavigationProperty Name="Сделки" Relationship="Self.FK_Сделки_Квартиры" FromRole="Квартиры" ToRole="Сделки" />
+        </EntityType>
+        <EntityType Name="Покупатели">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Фамилия" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Имя" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Отчество" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Телефон" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Сделки" Relationship="Self.FK_Сделки_Покупатели1" FromRole="Покупатели" ToRole="Сделки" />
+        </EntityType>
+        <EntityType Name="Риэлторы">
+          <Key>
+            <PropertyRef Name="Код_Риэлтора" />
+          </Key>
+          <Property Name="Код_Риэлтора" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Фамилия" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Имя" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Отчество" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Телефон" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Процент_вознаграждения" Type="Int32" />
+          <NavigationProperty Name="Сделки" Relationship="Self.FK_Сделки_Риэлторы1" FromRole="Риэлторы" ToRole="Сделки" />
+        </EntityType>
+        <EntityType Name="Сделки">
+          <Key>
+            <PropertyRef Name="Код_сделки" />
+          </Key>
+          <Property Name="Код_сделки" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Код_квартиры" Type="Int32" />
+          <Property Name="Риэлтор" Type="Int32" />
+          <Property Name="Покупатель" Type="Int32" />
+          <Property Name="Цена_сделки" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Квартиры" Relationship="Self.FK_Сделки_Квартиры" FromRole="Сделки" ToRole="Квартиры" />
+          <NavigationProperty Name="Покупатели" Relationship="Self.FK_Сделки_Покупатели1" FromRole="Сделки" ToRole="Покупатели" />
+          <NavigationProperty Name="Риэлторы" Relationship="Self.FK_Сделки_Риэлторы1" FromRole="Сделки" ToRole="Риэлторы" />
+        </EntityType>
+        <EntityType Name="Улицы">
+          <Key>
+            <PropertyRef Name="Код_улицы" />
+          </Key>
+          <Property Name="Код_улицы" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название_улицы" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Квартиры" Relationship="Self.FK_Квартиры_Улицы" FromRole="Улицы" ToRole="Квартиры" />
+        </EntityType>
+        <Association Name="FK_Квартиры_Улицы">
+          <End Role="Улицы" Type="Self.Улицы" Multiplicity="0..1" />
+          <End Role="Квартиры" Type="Self.Квартиры" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Улицы">
+              <PropertyRef Name="Код_улицы" />
+            </Principal>
+            <Dependent Role="Квартиры">
+              <PropertyRef Name="Улица" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сделки_Квартиры">
+          <End Role="Квартиры" Type="Self.Квартиры" Multiplicity="0..1" />
+          <End Role="Сделки" Type="Self.Сделки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Квартиры">
+              <PropertyRef Name="Код_квартиры" />
+            </Principal>
+            <Dependent Role="Сделки">
+              <PropertyRef Name="Код_квартиры" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сделки_Покупатели1">
+          <End Role="Покупатели" Type="Self.Покупатели" Multiplicity="0..1" />
+          <End Role="Сделки" Type="Self.Сделки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Покупатели">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Сделки">
+              <PropertyRef Name="Покупатель" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сделки_Риэлторы1">
+          <End Role="Риэлторы" Type="Self.Риэлторы" Multiplicity="0..1" />
+          <End Role="Сделки" Type="Self.Сделки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Риэлторы">
+              <PropertyRef Name="Код_Риэлтора" />
+            </Principal>
+            <Dependent Role="Сделки">
+              <PropertyRef Name="Риэлтор" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PPEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Квартиры" EntityType="Self.Квартиры" />
+          <EntitySet Name="Покупатели" EntityType="Self.Покупатели" />
+          <EntitySet Name="Риэлторы" EntityType="Self.Риэлторы" />
+          <EntitySet Name="Сделки" EntityType="Self.Сделки" />
+          <EntitySet Name="Улицы" EntityType="Self.Улицы" />
+          <AssociationSet Name="FK_Квартиры_Улицы" Association="Self.FK_Квартиры_Улицы">
+            <End Role="Улицы" EntitySet="Улицы" />
+            <End Role="Квартиры" EntitySet="Квартиры" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сделки_Квартиры" Association="Self.FK_Сделки_Квартиры">
+            <End Role="Квартиры" EntitySet="Квартиры" />
+            <End Role="Сделки" EntitySet="Сделки" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сделки_Покупатели1" Association="Self.FK_Сделки_Покупатели1">
+            <End Role="Покупатели" EntitySet="Покупатели" />
+            <End Role="Сделки" EntitySet="Сделки" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сделки_Риэлторы1" Association="Self.FK_Сделки_Риэлторы1">
+            <End Role="Риэлторы" EntitySet="Риэлторы" />
+            <End Role="Сделки" EntitySet="Сделки" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище PPModelContainer" CdmEntityContainer="PPEntities1">
+          <EntitySetMapping Name="Квартиры">
+            <EntityTypeMapping TypeName="PPModel.Квартиры">
+              <MappingFragment StoreEntitySet="Квартиры">
+                <ScalarProperty Name="Код_квартиры" ColumnName="Код_квартиры" />
+                <ScalarProperty Name="Улица" ColumnName="Улица" />
+                <ScalarProperty Name="Номер_дома" ColumnName="Номер_дома" />
+                <ScalarProperty Name="Номер_квартиры" ColumnName="Номер_квартиры" />
+                <ScalarProperty Name="Площадь_квартиры" ColumnName="Площадь_квартиры" />
+                <ScalarProperty Name="Количество_комнат" ColumnName="Количество_комнат" />
+                <ScalarProperty Name="Цена_квартиры" ColumnName="Цена_квартиры" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Покупатели">
+            <EntityTypeMapping TypeName="PPModel.Покупатели">
+              <MappingFragment StoreEntitySet="Покупатели">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Фамилия" ColumnName="Фамилия" />
+                <ScalarProperty Name="Имя" ColumnName="Имя" />
+                <ScalarProperty Name="Отчество" ColumnName="Отчество" />
+                <ScalarProperty Name="Телефон" ColumnName="Телефон" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Риэлторы">
+            <EntityTypeMapping TypeName="PPModel.Риэлторы">
+              <MappingFragment StoreEntitySet="Риэлторы">
+                <ScalarProperty Name="Код_Риэлтора" ColumnName="Код_Риэлтора" />
+                <ScalarProperty Name="Фамилия" ColumnName="Фамилия" />
+                <ScalarProperty Name="Имя" ColumnName="Имя" />
+                <ScalarProperty Name="Отчество" ColumnName="Отчество" />
+                <ScalarProperty Name="Телефон" ColumnName="Телефон" />
+                <ScalarProperty Name="Процент_вознаграждения" ColumnName="Процент_вознаграждения" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Сделки">
+            <EntityTypeMapping TypeName="PPModel.Сделки">
+              <MappingFragment StoreEntitySet="Сделки">
+                <ScalarProperty Name="Код_сделки" ColumnName="Код_сделки" />
+                <ScalarProperty Name="Код_квартиры" ColumnName="Код_квартиры" />
+                <ScalarProperty Name="Риэлтор" ColumnName="Риэлтор" />
+                <ScalarProperty Name="Покупатель" ColumnName="Покупатель" />
+                <ScalarProperty Name="Цена_сделки" ColumnName="Цена_сделки" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Улицы">
+            <EntityTypeMapping TypeName="PPModel.Улицы">
+              <MappingFragment StoreEntitySet="Улицы">
+                <ScalarProperty Name="Код_улицы" ColumnName="Код_улицы" />
+                <ScalarProperty Name="Название_улицы" ColumnName="Название_улицы" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

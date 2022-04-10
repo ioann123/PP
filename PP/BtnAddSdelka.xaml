@@ -1,0 +1,29 @@
+﻿<Window x:Class="PP.BtnAddSdelka"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PP"
+        mc:Ignorable="d"
+        Title="BtnAddSdelka" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="70"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <UniformGrid Columns="2">
+            <TextBlock>Код_квартиры</TextBlock>
+            <ComboBox x:Name="CmbKK" DisplayMemberPath="Код_квартиры" SelectedItem="{Binding Квартиры}"/>
+            <TextBlock>Риэлторы</TextBlock>
+            <ComboBox x:Name="CmbR" DisplayMemberPath="Фамилия" SelectedItem="{Binding Риэлторы}"/>
+            <TextBlock>Покупатели</TextBlock>
+            <ComboBox x:Name="CmbP" DisplayMemberPath="Фамилия" SelectedItem="{Binding Покупатели}"/>
+            <TextBlock>Цена_сделки</TextBlock>
+            <TextBox x:Name="TxtS" Text="{Binding Цена_сделки}"></TextBox>
+        </UniformGrid>
+        <Button x:Name="BtnSaveData" Grid.Row="1" Click="BtnSaveData_Click">Сохранить</Button>
+        <Button x:Name="BtnExit" Grid.Row="2" Click="BtnExit_Click">Назад</Button>
+    </Grid>
+</Window>
